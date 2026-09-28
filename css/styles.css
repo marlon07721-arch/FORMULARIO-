@@ -1,0 +1,203 @@
+
+
+
+/* Tipografía con carácter técnico. Si no hay internet,
+   cae a las fuentes del sistema sin romper nada. */
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap");
+
+/* Paleta en variables: así cambiar un color es tocar una línea. */
+:root {
+    --gris-borde: #cccccc;     /* borde normal (guía) */
+    --azul-foco: #007BFF;      /* borde en foco (guía) */
+    --azul-profundo: #0b1f4d;
+    --violeta: #5b2dd8;
+    --cian: #22d3ee;
+    --texto: #1c2440;
+    --texto-suave: #5d6785;
+    --tarjeta: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* ----------------------------------------------------------
+   FONDO - */
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    font-family: "Sora", "Segoe UI", Arial, sans-serif;
+    color: var(--texto);
+    background:
+        radial-gradient(circle at 15% 20%, rgba(34, 211, 238, 0.35), transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(91, 45, 216, 0.55), transparent 45%),
+        linear-gradient(135deg, var(--azul-profundo), #1a0f3d);
+}
+
+/* ----------------------------------------------------------
+   TARJETA
+   ---------------------------------------------------------- */
+main {
+    width: 100%;
+    max-width: 380px;
+    background-color: var(--tarjeta);
+    padding: 36px 32px 32px;
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(5, 10, 40, 0.45);
+    position: relative;
+    overflow: hidden;
+    animation: salto 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+/* Franja de color arriba de la tarjeta: identidad de marca. */
+main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--cian), var(--azul-foco), var(--violeta));
+}
+
+@keyframes salto {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+h1 {
+    margin: 0 0 24px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--azul-profundo);
+}
+
+form p {
+    margin: 0 0 18px;
+}
+
+/* ----------------------------------------------------------
+   ETIQUETAS:
+   ---------------------------------------------------------- */
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--texto-suave);
+    transition: color 0.2s ease;
+}
+
+form p:focus-within label {
+    color: var(--azul-foco);
+}
+
+/* ----------------------------------------------------------
+   1. ESTADO NORMAL
+   ---------------------------------------------------------- */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--texto);
+    background-color: #f8f9fc;
+    border: 1px solid var(--gris-borde);
+    border-radius: 10px;
+    /* El borde cambia al instante (sin transición), como pide el reto.
+       Solo el fondo y el halo se suavizan. */
+    transition:
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* ----------------------------------------------------------
+   2. ESTADO DE FOCO (requisito del reto)
+   Al recibir el foco, el borde se vuelve azul y aparece un halo.
+   ---------------------------------------------------------- */
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border: 2px solid var(--azul-foco);
+    padding: 11px 13px;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.18);
+    outline: none; /* reemplazado por borde + halo, igual de visible */
+}
+
+/* ----------------------------------------------------------
+   BOTÓN: gradiente, animación de fondo y sombra al pasar el ratón.
+   ---------------------------------------------------------- */
+button {
+    width: 100%;
+    margin-top: 6px;
+    padding: 14px 18px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--azul-foco), var(--violeta));
+    background-size: 150% 150%;
+    background-position: 0% 50%;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease,
+        background-position 0.4s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    background-position: 100% 50%;
+    box-shadow: 0 12px 28px rgba(91, 45, 216, 0.4);
+}
+
+button:active {
+    transform: translateY(1px) scale(0.99);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+button:focus-visible {
+    outline: 3px solid var(--cian);
+    outline-offset: 3px;
+}
+
+/* ----------------------------------------------------------
+   ACCESIBILIDAD
+   ---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    button:hover,
+    button:active {
+        transform: none;
+    }
+}
+
+/* Pantallas pequeñas: menos relleno para aprovechar el espacio. */
+@media (max-width: 420px) {
+    main {
+        padding: 28px 22px 24px;
+    }
+
+    h1 {
+        font-size: 21px;
+    }
+}
